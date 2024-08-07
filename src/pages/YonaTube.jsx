@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
+import {getVideo} from '../index.js'
 
 export function YonaTube() {
     const [videos, setVideos] = useState([])
@@ -8,46 +8,22 @@ export function YonaTube() {
     const [searchQuery, setSearchQuery] = useState('Bob Marley')
 
     useEffect(() => {
-        getVideo(searchQuery)
+        fetchVideos(searchQuery)
     }, [])
 
-    async function getVideo(query) {
-        const STORAGE_KEY = 'videosDB'
-        const cachedData = loadFromStorage(STORAGE_KEY)
-        if (cachedData && cachedData.query === query) {
-            setVideos(cachedData.items.slice(0, 5))
-            return
-        }
-
-        const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&videoEmbeddable=true&type=video&key=AIzaSyD27FH2l9LwOb2so8yV7IAhrTdzxxqbXsg&q=${encodeURIComponent(query)}`
-
-        try {
-            const response = await axios.get(url)
-            const fetchedVideos = response.data.items
-            saveToStorage(STORAGE_KEY, { query, items: fetchedVideos })
-            setVideos(fetchedVideos.slice(0, 5))
-        } catch (err) {
-            console.error('Error fetching videos:', err)
-        }
+    async function fetchVideos(query) {
+        const fetchedVideos = await getVideo(query)
+        setVideos(fetchedVideos)
     }
 
     function handleSubmit(event) {
         event.preventDefault()
-        getVideo(searchQuery)
+        fetchVideos(searchQuery)
     }
 
     function handleVideoSelect(video) {
         setSelectedVideo(video.id.videoId)
         setSelectedVideoTitle(video.snippet.title)
-    }
-
-    function saveToStorage(key, val) {
-        localStorage.setItem(key, JSON.stringify(val))
-    }
-
-    function loadFromStorage(key) {
-        const val = localStorage.getItem(key)
-        return JSON.parse(val)
     }
 
     return (
