@@ -52,6 +52,7 @@ export function YonaTube() {
                         >
                             <p>{video.snippet.title}</p>
                             <img src={video.snippet.thumbnails.default.url} alt={video.snippet.title} />
+                            {/* <span className='play-btn'>Play</span> */}
                         </div>
                     ))}
                 </div>

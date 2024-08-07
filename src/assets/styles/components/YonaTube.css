@@ -59,18 +59,38 @@
 }
 
 .videos {
+    position: relative;
     display: flex;
     flex-direction: column;
     gap: 8px;
     width: 39%;
 }
 
+.play-btn {
+    position: absolute;
+    background-color: #9bceba;
+    padding: 3px 5px;
+    border-radius: 5px;
+    right: 5px;
+    bottom: 5px;
+    transition: .1s;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.play-btn:hover {
+    box-shadow: 2px 2px #729f8da5;
+    transition: .1s;
+}
+
 .card {
+    position: relative;
     display: flex;
     justify-content: flex-end;
     flex-direction: row-reverse;
     gap: 12px;
-    
+
     padding-inline-end: 10px;
     background-color: white;
     border-radius: 2px;
